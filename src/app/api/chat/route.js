@@ -18,5 +18,11 @@ export const POST = async (req) => {
     experimental_transform: smoothStream(),
   })
 
-  return result.toDataStream()
+  return new Response(result.toDataStream(), {
+    headers: {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+    },
+  });
 }
