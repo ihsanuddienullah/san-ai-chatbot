@@ -1,3 +1,4 @@
+import { Ref } from "react";
 import Message from "./_components/Message";
 import { MessageProps } from "./_components/Message";
 import useCustom from "./hooks";
@@ -5,7 +6,7 @@ import useCustom from "./hooks";
 interface ChatThreadProps {
   messages: MessageProps[];
   status: "idle" | "loading" | "error" | "submitted";
-  chatThreadRef: any;
+  chatThreadRef: Ref<HTMLDivElement>;
 }
 
 const ChatThread = ({ messages, status, chatThreadRef }: ChatThreadProps) => {
