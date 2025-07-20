@@ -1,10 +1,10 @@
-import { createOpenAI } from "@ai-sdk/openai";
-import { streamText, smoothStream } from "ai";
+import { createOpenAI } from '@ai-sdk/openai'
+import { streamText, smoothStream } from 'ai'
 
-export const maxDuration = 30;
+export const maxDuration = 30
 
 export const POST = async (req: Request) => {
-  const { messages } = await req.json();
+  const { messages } = await req.json()
 
   const openai = createOpenAI({
     baseURL: 'https://models.inference.ai.azure.com',
@@ -12,8 +12,8 @@ export const POST = async (req: Request) => {
   })
 
   const result = streamText({
-    model: openai("gpt-4.1"),
-    system: "You are a helpful AI assistant named 'San'.",
+    model: openai('gpt-4.1'),
+    system: 'You are a helpful AI assistant named \'San\'.',
     messages,
     experimental_transform: smoothStream(),
   })
@@ -24,5 +24,5 @@ export const POST = async (req: Request) => {
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
     },
-  });
+  })
 }

@@ -1,16 +1,16 @@
-import { Ref } from "react";
-import Message from "./_components/Message";
-import { MessageProps } from "./_components/Message";
-import useCustom from "./hooks";
+import { Ref } from 'react'
+import Message from './_components/Message'
+import { MessageProps } from './_components/Message'
+import useCustom from './hooks'
 
 interface ChatThreadProps {
   messages: MessageProps[];
-  status: "idle" | "loading" | "error" | "submitted";
+  status: 'idle' | 'loading' | 'error' | 'submitted';
   chatThreadRef: Ref<HTMLDivElement>;
 }
 
 const ChatThread = ({ messages, status, chatThreadRef }: ChatThreadProps) => {
-  const { data } = useCustom();
+  const { data } = useCustom()
 
   return (
     <div className="message-container" ref={chatThreadRef}>
@@ -20,7 +20,7 @@ const ChatThread = ({ messages, status, chatThreadRef }: ChatThreadProps) => {
         messages.map((message, index) => <Message key={index} {...message} />)
       )}
 
-      {status === "submitted" && (
+      {status === 'submitted' && (
         <div className="thinking-row">
           <div className="ai-avatar">AI</div>
           <div className="typing-indicator">
@@ -31,7 +31,7 @@ const ChatThread = ({ messages, status, chatThreadRef }: ChatThreadProps) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ChatThread;
+export default ChatThread
