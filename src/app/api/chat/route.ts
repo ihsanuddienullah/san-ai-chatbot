@@ -3,7 +3,7 @@ import { streamText, smoothStream } from "ai";
 
 export const maxDuration = 30;
 
-export const POST = async (req) => {
+export const POST = async (req: Request) => {
   const { messages } = await req.json();
 
   const openai = createOpenAI({
