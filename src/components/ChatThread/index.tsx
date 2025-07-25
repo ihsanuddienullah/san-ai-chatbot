@@ -1,12 +1,12 @@
 import { Ref } from 'react'
 import Message from './_components/Message'
-import { MessageProps } from './_components/Message'
 import useCustom from './hooks'
+import { UIMessage } from 'ai'
 
 interface ChatThreadProps {
-  messages: MessageProps[];
-  status: 'idle' | 'loading' | 'error' | 'submitted';
-  chatThreadRef: Ref<HTMLDivElement>;
+  messages: UIMessage[]
+  status: 'submitted' | 'streaming' | 'ready' | 'error'
+  chatThreadRef: Ref<HTMLDivElement>
 }
 
 const ChatThread = ({ messages, status, chatThreadRef }: ChatThreadProps) => {

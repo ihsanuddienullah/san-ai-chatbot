@@ -1,12 +1,8 @@
+import { UIMessage } from 'ai'
 import { User } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
-export interface MessageProps {
-  role: 'user' | 'assistant';
-  content: string;
-}
-
-const Message = ({ role, content }: MessageProps) => (
+const Message = ({ role, content }: UIMessage) => (
   <div className="message-wrapper">
     {role === 'user' ? (
       <div className="user-avatar">

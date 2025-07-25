@@ -1,9 +1,16 @@
-import { MessageProps } from './_components/Message'
+import { UIMessage } from 'ai'
 
 const useCustom = () => {
-  const welcomeMessage: MessageProps = {
+  const welcomeMessage: UIMessage = {
+    id: 'welcome-message',
     role: 'assistant',
-    content: 'Welcome to the San AI Chatbot! How can I assist you today?',
+    parts: [
+      {
+        type: 'text',
+        text: '',
+      },
+    ],
+    content: '👋🏻 Hello, I am San! How can I assist you today?',
   }
 
   return {
