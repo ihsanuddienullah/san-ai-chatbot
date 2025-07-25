@@ -95,7 +95,7 @@
 
 /* Thinking Indicator */
 .thinking-row {
-  @apply flex items-center gap-1 px-2 sm:px-4 py-2;
+  @apply flex items-center gap-1 py-2;
 }
 
 .typing-indicator {
