@@ -3,7 +3,9 @@ import { User } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 const Message = ({ role, content }: UIMessage) => (
-  <div className="message-wrapper">
+  <div
+    className={`message-wrapper ${role === 'user' ? 'flex-row-reverse' : ''}`}
+  >
     {role === 'user' ? (
       <div className="user-avatar">
         <User className="user-avatar-icon" strokeWidth={1.5} />
@@ -12,7 +14,9 @@ const Message = ({ role, content }: UIMessage) => (
       <div className="ai-avatar">AI</div>
     )}
 
-    <div className="message-content-wrapper">
+    <div
+      className={`message-content-wrapper ${role === 'user' ? 'items-end' : ''}`}
+    >
       <span className="message-sender">{role === 'user' ? 'You' : 'AI'}</span>
 
       <div
