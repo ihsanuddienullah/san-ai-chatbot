@@ -50,7 +50,7 @@ const useCustom = () => {
     [router]
   )
 
-  const initializeChat = useCallback(async () => {
+  const initializeNewChat = useCallback(async () => {
     const chatId = await createChat()
     navigateToChat(chatId)
   }, [navigateToChat])
@@ -58,13 +58,13 @@ const useCustom = () => {
   const setActiveChat = useCallback(
     async (requestedChatId: number | null = null) => {
       if (fetchedChats && fetchedChats.length === 0) {
-        return initializeChat()
+        return initializeNewChat()
       }
 
       if (requestedChatId) navigateToChat(requestedChatId)
       else navigateToChat((fetchedChats || [])[0].id)
     },
-    [navigateToChat, fetchedChats, initializeChat]
+    [navigateToChat, fetchedChats, initializeNewChat]
   )
 
   const handleChatSubmit = useCallback(
@@ -124,6 +124,7 @@ const useCustom = () => {
   return {
     data: {
       currentChat,
+      currentChatId,
       fetchedChats,
       input,
       messages,
@@ -133,9 +134,11 @@ const useCustom = () => {
       chatThreadRef,
     },
     methods: {
+      handleChatSubmit,
       handleDeleteChat,
       handleInputChange,
-      handleSubmit,
+      initializeNewChat,
+      setCurrentChatId,
     },
   }
 }

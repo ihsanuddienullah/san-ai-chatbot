@@ -1,9 +1,9 @@
 'use client'
-import Chat from '@/modules/Chat'
+
+import Main from '@/modules/Main'
+
 import '@/styles/page.css'
 
-const Home = () => {
-  return <Chat />
-}
+const Home = () => <Main />
 
 export default Home

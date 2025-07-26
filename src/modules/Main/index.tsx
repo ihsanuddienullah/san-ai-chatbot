@@ -1,11 +1,12 @@
 'use client'
-import { MinusCircle, SendHorizonal, SendHorizonalIcon } from 'lucide-react'
+import { MinusCircle, SendHorizonalIcon } from 'lucide-react'
 import useCustom from './hooks'
 import ChatThread from '@/components/ChatThread'
 
 import '@/styles/page.css'
+import Sidebar from '@/components/Sidebar'
 
-const Chat = () => {
+const Main = () => {
   const { data, ref, methods } = useCustom()
 
   if (!data.fetchedChats) {
@@ -14,6 +15,12 @@ const Chat = () => {
 
   return (
     <div className="chat-container">
+      <Sidebar
+        fetchedChats={data.fetchedChats}
+        currentChatId={data.currentChatId}
+        setCurrentChatId={methods.setCurrentChatId}
+        initializeNewChat={methods.initializeNewChat}
+      />
       <div className="chat-main">
         <div className="chat-header">
           <div className="title-group">
@@ -37,7 +44,7 @@ const Chat = () => {
         />
 
         <div className="input-area">
-          <form onSubmit={methods.handleSubmit} className="input-form">
+          <form onSubmit={methods.handleChatSubmit} className="input-form">
             <input
               value={data.input}
               placeholder="Message AI Assistant"
@@ -56,7 +63,7 @@ const Chat = () => {
               }
               aria-label="Send Message"
             >
-              <SendHorizonal className="submit-icon" strokeWidth={1.5} />
+              <SendHorizonalIcon className="submit-icon" strokeWidth={1.5} />
             </button>
           </form>
         </div>
@@ -65,4 +72,4 @@ const Chat = () => {
   )
 }
 
-export default Chat
+export default Main
