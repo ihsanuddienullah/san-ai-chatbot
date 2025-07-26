@@ -73,7 +73,13 @@ const useCustom = () => {
 
       if (!input.trim()) return
 
+      const isFirstMessage =
+        (await getChatMessages(Number(currentChatId))).length === 0
+
       await saveMessage(Number(currentChatId), 'user', input)
+
+      if (isFirstMessage) await generateTitle(input)
+
       handleSubmit()
     },
     [input, handleSubmit, currentChatId]
@@ -88,6 +94,32 @@ const useCustom = () => {
       router.push('/')
     }
   }, [currentChatId, router])
+
+  const generateTitle = useCallback(
+    async (message: string) => {
+      try {
+        const response = await fetch('/api/generate-title', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to generate title')
+        }
+
+        const { title } = await response.json()
+        if (title && currentChatId) {
+          await updateChatTitle(currentChatId, title)
+        }
+      } catch (error) {
+        console.error('Error generating title:', error)
+      }
+    },
+    [currentChatId]
+  )
 
   useEffect(() => {
     if (!fetchedChats) return

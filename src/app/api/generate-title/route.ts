@@ -9,24 +9,25 @@ const openai = createOpenAI({
   apiKey: process.env.GITHUB_TOKEN,
 })
 
-export async function GET() {
+export const POST = async (req: Request) => {
   try {
+    const { message } = await req.json()
+
     const { text } = await generateText({
       model: openai('gpt-4.1'),
-      system: 'You are a helpful AI assistant named "San".',
-      prompt: 'Give a brief 2-sentence introduction of yourself',
+      system:
+        'You are a helpful AI assistant that generates titles for conversations.',
+      prompt:
+        'Generate a concise and relevant title for the following conversation (max 5 words): ' +
+        message,
     })
 
-    return NextResponse.json({
-      message: text,
-    })
+    return NextResponse.json({ title: text })
   } catch (error) {
     console.error('Error in test route:', error)
 
     return NextResponse.json(
-      {
-        error: 'An error occurred',
-      },
+      { error: 'Failed to generate title' },
       { status: 500 }
     )
   }
