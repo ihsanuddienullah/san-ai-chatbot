@@ -1,9 +1,9 @@
 'use client'
 
-import Main from '@/modules/Main'
+import Welcome from '@/modules/Home'
 
 import '@/styles/page.css'
 
-const Home = () => <Main />
+const Home = () => <Welcome />
 
 export default Home

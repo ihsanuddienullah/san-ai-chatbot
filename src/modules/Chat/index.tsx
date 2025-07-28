@@ -6,7 +6,7 @@ import ChatThread from '@/components/ChatThread'
 import '@/styles/page.css'
 import Sidebar from '@/components/Sidebar'
 
-const Main = () => {
+const Chat = () => {
   const { data, ref, methods } = useCustom()
 
   if (!data.fetchedChats) {
@@ -72,4 +72,4 @@ const Main = () => {
   )
 }
 
-export default Main
+export default Chat

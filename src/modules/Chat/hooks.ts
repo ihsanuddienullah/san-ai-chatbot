@@ -44,7 +44,7 @@ const useCustom = () => {
 
   const navigateToChat = useCallback(
     (chatId: number) => {
-      router.push(`/?chatId=${chatId}`)
+      router.push(`/chat?chatId=${chatId}`)
       setCurrentChatId(chatId)
     },
     [router]
@@ -91,7 +91,7 @@ const useCustom = () => {
     if (window.confirm('Are you sure you want to delete this chat?')) {
       await deleteChat(currentChatId)
       setCurrentChatId(null)
-      router.push('/')
+      router.push('/chat')
     }
   }, [currentChatId, router])
 
