@@ -1,8 +1,6 @@
 'use client'
 
-import Welcome from '@/modules/Home'
-
-import '@/styles/page.css'
+import Welcome from '@/modules/Welcome'
 
 const Home = () => <Welcome />
 

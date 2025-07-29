@@ -2,9 +2,9 @@
 import { MinusCircle, SendHorizonalIcon } from 'lucide-react'
 import useCustom from './hooks'
 import ChatThread from '@/components/ChatThread'
+import Sidebar from '@/components/Sidebar'
 
 import '@/styles/page.css'
-import Sidebar from '@/components/Sidebar'
 
 const Chat = () => {
   const { data, ref, methods } = useCustom()
