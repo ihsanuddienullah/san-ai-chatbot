@@ -1,5 +1,58 @@
+import { useCallback, useEffect } from 'react'
+import { useGlobalContext } from '@/context'
+import { saveMessage } from '@/lib/db'
+
 const useCustom = () => {
-  return {}
+  const {
+    currentChatId,
+    input,
+    generateTitle,
+    handleInputChange,
+    handleSubmit,
+    initializeNewChat,
+    setCurrentChatId,
+  } = useGlobalContext()
+
+  const handleChatSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault()
+
+      if (!input.trim()) return
+
+      initializeNewChat(async (chatId) => {
+        await saveMessage(Number(chatId), 'user', input)
+        generateTitle(input)
+        handleSubmit()
+      })
+    },
+    [input, initializeNewChat, generateTitle, handleSubmit]
+  )
+
+  const handleSuggestionClick = useCallback(
+    (suggestion: string) => {
+      const event = {
+        target: { value: suggestion },
+      } as React.ChangeEvent<HTMLInputElement>
+
+      handleInputChange(event)
+    },
+    [handleInputChange]
+  )
+
+  useEffect(() => {
+    setCurrentChatId(null)
+  }, [])
+
+  return {
+    data: {
+      input,
+    },
+    methods: {
+      handleInputChange,
+      handleChatSubmit,
+      handleSuggestionClick,
+    },
+  }
 }
 
 export default useCustom

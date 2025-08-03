@@ -56,7 +56,7 @@ const Sidebar = ({
             {fetchedChats.map((chat) => (
               <Link
                 key={chat.id}
-                href={`/?chatId=${chat.id}`}
+                href={`/chat?chatId=${chat.id}`}
                 className={`chat-item ${currentChatId === chat.id ? 'chat-item-active' : ''}`}
                 onClick={() => {
                   setCurrentChatId(chat.id)

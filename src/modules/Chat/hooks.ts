@@ -3,7 +3,6 @@ import { useChat } from '@ai-sdk/react'
 import {
   db,
   createChat,
-  getChat,
   deleteChat,
   updateChatTitle,
   getChatMessages,
@@ -11,12 +10,23 @@ import {
 } from '@/lib/db'
 import { useRouter } from 'next/navigation'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useGlobalContext } from '@/context'
 
 const useCustom = () => {
   const router = useRouter()
   const chatThreadRef = useRef<HTMLDivElement>(null)
 
-  const [currentChatId, setCurrentChatId] = useState<number | null>(null)
+  const {
+    currentChatId,
+    input,
+    messages,
+    status,
+    setCurrentChatId,
+    handleInputChange,
+    handleSubmit,
+    generateTitle,
+    setMessages,
+  } = useGlobalContext()
 
   const fetchedChats = useLiveQuery(() =>
     db.chats.orderBy('createdAt').reverse().toArray()
@@ -27,27 +37,27 @@ const useCustom = () => {
     [currentChatId]
   )
 
-  const {
-    messages,
-    input,
-    handleInputChange,
-    handleSubmit,
-    setMessages,
-    status,
-  } = useChat({
-    onFinish: async (message) => {
-      if (currentChatId && message.role === 'assistant') {
-        await saveMessage(currentChatId, message.role, message.content)
-      }
-    },
-  })
+  // const {
+  //   messages,
+  //   input,
+  //   handleInputChange,
+  //   handleSubmit,
+  //   setMessages,
+  //   status,
+  // } = useChat({
+  //   onFinish: async (message) => {
+  //     if (currentChatId && message.role === 'assistant') {
+  //       await saveMessage(currentChatId, message.role, message.content)
+  //     }
+  //   },
+  // })
 
   const navigateToChat = useCallback(
     (chatId: number) => {
       router.push(`/chat?chatId=${chatId}`)
       setCurrentChatId(chatId)
     },
-    [router]
+    [router, setCurrentChatId]
   )
 
   const initializeNewChat = useCallback(async () => {
@@ -82,7 +92,7 @@ const useCustom = () => {
 
       handleSubmit()
     },
-    [input, handleSubmit, currentChatId]
+    [input, currentChatId, generateTitle, handleSubmit]
   )
 
   const handleDeleteChat = useCallback(async () => {
@@ -93,33 +103,7 @@ const useCustom = () => {
       setCurrentChatId(null)
       router.push('/chat')
     }
-  }, [currentChatId, router])
-
-  const generateTitle = useCallback(
-    async (message: string) => {
-      try {
-        const response = await fetch('/api/generate-title', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ message }),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to generate title')
-        }
-
-        const { title } = await response.json()
-        if (title && currentChatId) {
-          await updateChatTitle(currentChatId, title)
-        }
-      } catch (error) {
-        console.error('Error generating title:', error)
-      }
-    },
-    [currentChatId]
-  )
+  }, [currentChatId, router, setCurrentChatId])
 
   useEffect(() => {
     if (!fetchedChats) return
