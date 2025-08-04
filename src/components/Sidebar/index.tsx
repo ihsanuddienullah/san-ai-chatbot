@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { PenLine, Menu } from 'lucide-react'
+import { PenLine, Menu, HouseIcon } from 'lucide-react'
 import '@/styles/sidebar.css'
 import useCustom from './hooks'
 import { Chat } from '@/lib/types'
@@ -39,16 +39,22 @@ const Sidebar = ({
       <div className={`sidebar ${data.isSeidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2 className="sidebar-title">Chats</h2>
-          <button
-            onClick={() => {
-              initializeNewChat()
-              methods.toggleSidebar()
-            }}
-            className="new-chat-button"
-            aria-label="New chat"
-          >
-            <PenLine className="new-chat-icon" strokeWidth={2} />
-          </button>
+          <div className="flex gap-3">
+            <Link href="/" className="new-chat-button" aria-label="New chat">
+              <HouseIcon className="new-chat-icon" strokeWidth={2} />
+            </Link>
+
+            <button
+              onClick={() => {
+                initializeNewChat()
+                methods.toggleSidebar()
+              }}
+              className="new-chat-button"
+              aria-label="New chat"
+            >
+              <PenLine className="new-chat-icon" strokeWidth={2} />
+            </button>
+          </div>
         </div>
 
         <div className="chat-list flex flex-col justify-between">
