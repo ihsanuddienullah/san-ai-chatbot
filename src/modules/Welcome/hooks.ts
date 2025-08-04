@@ -4,7 +4,6 @@ import { saveMessage } from '@/lib/db'
 
 const useCustom = () => {
   const {
-    currentChatId,
     input,
     generateTitle,
     handleInputChange,
@@ -21,7 +20,7 @@ const useCustom = () => {
 
       initializeNewChat(async (chatId) => {
         await saveMessage(Number(chatId), 'user', input)
-        generateTitle(input)
+        generateTitle(input, chatId)
         handleSubmit()
       })
     },

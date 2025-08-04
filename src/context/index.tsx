@@ -17,7 +17,7 @@ type ContextType = {
   messages: UIMessage[]
   input: string
   status: 'submitted' | 'streaming' | 'ready' | 'error'
-  generateTitle: (message: string) => void
+  generateTitle: (message: string, chatId?: number) => void
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleSubmit: () => void
   initializeNewChat: (welcomeCallback?: (chatId: number) => void) => void
@@ -73,7 +73,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
   )
 
   const generateTitle = useCallback(
-    async (message: string) => {
+    async (message: string, chatId?: number) => {
       try {
         const response = await fetch('/api/generate-title', {
           method: 'POST',
@@ -88,9 +88,11 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
         }
 
         const { title } = await response.json()
-        if (title && currentChatId) {
-          console.log(currentChatId)
-          await updateChatTitle(currentChatId, title)
+
+        const newChatId = chatId || currentChatId
+        console.log('newChatId', newChatId)
+        if (title && newChatId) {
+          await updateChatTitle(newChatId, title)
         }
       } catch (error) {
         console.error('Error generating title:', error)
