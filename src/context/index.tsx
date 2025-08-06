@@ -49,7 +49,9 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
     onFinish: async (message) => {
       if (currentChatId && message.role === 'assistant') {
         await saveMessage(currentChatId, message.role, message.content)
-      } else {
+      }
+
+      if (currentChatId === null) {
         const chatId = await createChat()
         await saveMessage(chatId, message.role, message.content)
         navigateToChat(chatId)
