@@ -18,13 +18,9 @@ const useCustom = () => {
 
       if (!input.trim()) return
 
-      initializeNewChat(async (chatId) => {
-        await saveMessage(Number(chatId), 'user', input)
-        generateTitle(input, chatId)
-        handleSubmit()
-      })
+      handleSubmit()
     },
-    [input, initializeNewChat, generateTitle, handleSubmit]
+    [input, handleSubmit]
   )
 
   const handleSuggestionClick = useCallback(

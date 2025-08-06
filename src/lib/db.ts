@@ -2,8 +2,8 @@ import Dexie, { EntityTable } from 'dexie'
 import { Chat, Message } from './types'
 
 export const db = new Dexie('ChatAppDB') as Dexie & {
-  chats: EntityTable<Chat, 'id'>;
-  messages: EntityTable<Message, 'id'>;
+  chats: EntityTable<Chat, 'id'>
+  messages: EntityTable<Message, 'id'>
 }
 
 db.version(1).stores({
@@ -25,7 +25,7 @@ export const updateChatTitle = async (chatId: number, title: string) => {
 
 export const saveMessage = async (
   chatId: number,
-  role: 'user' | 'assistant',
+  role: 'system' | 'user' | 'assistant' | 'data',
   content: string
 ) => {
   const data = {

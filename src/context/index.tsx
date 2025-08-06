@@ -49,6 +49,11 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
     onFinish: async (message) => {
       if (currentChatId && message.role === 'assistant') {
         await saveMessage(currentChatId, message.role, message.content)
+      } else {
+        const chatId = await createChat()
+        await saveMessage(chatId, message.role, message.content)
+        navigateToChat(chatId)
+        generateTitle(input, chatId)
       }
     },
   })
@@ -62,15 +67,10 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
     [router, setCurrentChatId]
   )
 
-  const initializeNewChat = useCallback(
-    async (welcomeCallback?: (chatId: number) => void) => {
-      const chatId = await createChat()
-      navigateToChat(chatId)
-
-      if (welcomeCallback) welcomeCallback(chatId)
-    },
-    [navigateToChat]
-  )
+  const initializeNewChat = useCallback(async () => {
+    const chatId = await createChat()
+    navigateToChat(chatId)
+  }, [navigateToChat])
 
   const generateTitle = useCallback(
     async (message: string, chatId?: number) => {
@@ -90,7 +90,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
         const { title } = await response.json()
 
         const newChatId = chatId || currentChatId
-        console.log('newChatId', newChatId)
+
         if (title && newChatId) {
           await updateChatTitle(newChatId, title)
         }

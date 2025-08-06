@@ -37,21 +37,6 @@ const useCustom = () => {
     [currentChatId]
   )
 
-  // const {
-  //   messages,
-  //   input,
-  //   handleInputChange,
-  //   handleSubmit,
-  //   setMessages,
-  //   status,
-  // } = useChat({
-  //   onFinish: async (message) => {
-  //     if (currentChatId && message.role === 'assistant') {
-  //       await saveMessage(currentChatId, message.role, message.content)
-  //     }
-  //   },
-  // })
-
   const navigateToChat = useCallback(
     (chatId: number) => {
       router.push(`/chat?chatId=${chatId}`)
