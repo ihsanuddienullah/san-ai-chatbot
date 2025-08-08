@@ -1,13 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { useChat } from '@ai-sdk/react'
-import {
-  db,
-  createChat,
-  deleteChat,
-  updateChatTitle,
-  getChatMessages,
-  saveMessage,
-} from '@/lib/db'
+import { useEffect, useCallback, useRef } from 'react'
+import { db, deleteChat, getChatMessages, saveMessage } from '@/lib/db'
 import { useRouter } from 'next/navigation'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useGlobalContext } from '@/context'
@@ -24,6 +16,8 @@ const useCustom = () => {
     setCurrentChatId,
     handleInputChange,
     handleSubmit,
+    initializeNewChat,
+    navigateToChat,
     generateTitle,
     setMessages,
   } = useGlobalContext()
@@ -36,19 +30,6 @@ const useCustom = () => {
     () => db.chats.get(Number(currentChatId)),
     [currentChatId]
   )
-
-  const navigateToChat = useCallback(
-    (chatId: number) => {
-      router.push(`/chat?chatId=${chatId}`)
-      setCurrentChatId(chatId)
-    },
-    [router, setCurrentChatId]
-  )
-
-  const initializeNewChat = useCallback(async () => {
-    const chatId = await createChat()
-    navigateToChat(chatId)
-  }, [navigateToChat])
 
   const setActiveChat = useCallback(
     async (requestedChatId: number | null = null) => {

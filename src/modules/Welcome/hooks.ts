@@ -1,11 +1,8 @@
 import { useCallback, useEffect } from 'react'
 import { useGlobalContext } from '@/context'
 import { saveMessage } from '@/lib/db'
-import { useRouter } from 'next/navigation'
 
 const useCustom = () => {
-  const router = useRouter()
-
   const {
     input,
     generateTitle,

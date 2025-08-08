@@ -21,6 +21,7 @@ type ContextType = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   handleSubmit: () => void
   initializeNewChat: (welcomeCallback?: (chatId: number) => void) => void
+  navigateToChat: (chatId: number) => void
   setCurrentChatId: React.Dispatch<React.SetStateAction<number | null>>
   setMessages: (
     messages: Message[] | ((messages: Message[]) => Message[])
@@ -122,6 +123,7 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
         handleInputChange,
         handleSubmit,
         initializeNewChat,
+        navigateToChat,
         setCurrentChatId,
         setMessages,
       }}
