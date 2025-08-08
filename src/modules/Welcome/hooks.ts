@@ -1,8 +1,11 @@
 import { useCallback, useEffect } from 'react'
 import { useGlobalContext } from '@/context'
 import { saveMessage } from '@/lib/db'
+import { useRouter } from 'next/navigation'
 
 const useCustom = () => {
+  const router = useRouter()
+
   const {
     input,
     generateTitle,
@@ -18,9 +21,14 @@ const useCustom = () => {
 
       if (!input.trim()) return
 
+      initializeNewChat(async (chatId) => {
+        await saveMessage(chatId, 'user', input)
+        generateTitle(input, chatId)
+      })
+
       handleSubmit()
     },
-    [input, handleSubmit]
+    [input, handleSubmit, initializeNewChat, generateTitle]
   )
 
   const handleSuggestionClick = useCallback(

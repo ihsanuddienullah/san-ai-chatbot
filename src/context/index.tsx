@@ -52,10 +52,11 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
       }
 
       if (currentChatId === null) {
-        const chatId = await createChat()
+        const chatId = Number(
+          new URLSearchParams(window.location.search).get('chatId')
+        )
+
         await saveMessage(chatId, message.role, message.content)
-        navigateToChat(chatId)
-        generateTitle(input, chatId)
       }
     },
   })
@@ -69,10 +70,17 @@ export const ContextProvider = ({ children }: ContextProviderProps) => {
     [router, setCurrentChatId]
   )
 
-  const initializeNewChat = useCallback(async () => {
-    const chatId = await createChat()
-    navigateToChat(chatId)
-  }, [navigateToChat])
+  const initializeNewChat = useCallback(
+    async (welcomeCallback?: (chatId: number) => void) => {
+      const chatId = await createChat()
+      navigateToChat(chatId)
+
+      if (welcomeCallback) {
+        welcomeCallback(chatId)
+      }
+    },
+    [navigateToChat]
+  )
 
   const generateTitle = useCallback(
     async (message: string, chatId?: number) => {
