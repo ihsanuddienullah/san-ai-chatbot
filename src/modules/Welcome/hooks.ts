@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useGlobalContext } from '@/context'
 import { saveMessage } from '@/lib/db'
 
@@ -12,8 +12,11 @@ const useCustom = () => {
     setCurrentChatId,
   } = useGlobalContext()
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const handleChatSubmit = useCallback(
     async (event: React.FormEvent) => {
+      setIsSubmitting(true)
       event.preventDefault()
 
       if (!input.trim()) return
@@ -24,6 +27,8 @@ const useCustom = () => {
       })
 
       handleSubmit()
+
+      setIsSubmitting(false)
     },
     [input, handleSubmit, initializeNewChat, generateTitle]
   )
@@ -46,6 +51,7 @@ const useCustom = () => {
   return {
     data: {
       input,
+      isSubmitting,
     },
     methods: {
       handleInputChange,

@@ -1,4 +1,4 @@
-import { Send, Sparkles } from 'lucide-react'
+import { Loader, Send, Sparkles } from 'lucide-react'
 import React from 'react'
 import useCustom from './hooks'
 
@@ -46,7 +46,11 @@ const Welcome = () => {
                 disabled={false}
                 className="absolute right-1.5 sm:right-2 top-1.5 sm:top-2 size-9 sm:size-10 rounded-lg bg-gradient-to-r from-primary to-primary/80 text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
               >
-                <Send className="size-3 sm:size-4" />
+                {data.isSubmitting ? (
+                  <Loader className="size-3 sm:size-4 animate-spin" />
+                ) : (
+                  <Send className="size-3 sm:size-4 cursor-pointer" />
+                )}
               </button>
             </div>
 
