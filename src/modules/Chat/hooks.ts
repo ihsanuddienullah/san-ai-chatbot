@@ -1,5 +1,11 @@
 import { useEffect, useCallback, useRef } from 'react'
-import { db, deleteChat, getChatMessages, saveMessage } from '@/lib/db'
+import {
+  db,
+  deleteChat,
+  getChatMessages,
+  getFirstChat,
+  saveMessage,
+} from '@/lib/db'
 import { useRouter } from 'next/navigation'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useGlobalContext } from '@/context'
@@ -66,10 +72,17 @@ const useCustom = () => {
 
     if (window.confirm('Are you sure you want to delete this chat?')) {
       await deleteChat(currentChatId)
-      setCurrentChatId(null)
-      router.push('/chat')
+
+      if (fetchedChats && fetchedChats.length > 0) {
+        const firstChat = await getFirstChat()
+        setCurrentChatId(firstChat?.id || null)
+        router.push('/chat?chatId=' + (firstChat?.id || ''))
+      } else {
+        setCurrentChatId(null)
+        router.push('/chat')
+      }
     }
-  }, [currentChatId, router, setCurrentChatId])
+  }, [currentChatId, fetchedChats, router, setCurrentChatId])
 
   useEffect(() => {
     if (!fetchedChats) return

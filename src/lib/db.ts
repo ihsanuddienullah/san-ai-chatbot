@@ -50,3 +50,7 @@ export const deleteChat = async (chatId: number) => {
   await db.messages.where('chatId').equals(chatId).delete()
   await db.chats.delete(chatId)
 }
+
+export const getFirstChat = async () => {
+  return await db.chats.orderBy('id').last()
+}
